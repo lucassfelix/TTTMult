@@ -10,6 +10,10 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+
+//Novos Includes
+#include "TTTMultPlayerState.h"
+
 ATTTMultPlayerController::ATTTMultPlayerController()
 {
 	bShowMouseCursor = true;
@@ -57,7 +61,11 @@ void ATTTMultPlayerController::SetupInputComponent()
 
 void ATTTMultPlayerController::OnLogStarted()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Você apertou L!!"));
+	
+	ATTTMultPlayerState* TTTMultPlayerState = Cast<ATTTMultPlayerState>(PlayerState);
+
+
+	UE_LOG(LogTemp, Warning, TEXT("Eu sou o Piece %d"), TTTMultPlayerState->GetPlayerPiece());
 }
 
 void ATTTMultPlayerController::OnInputStarted()

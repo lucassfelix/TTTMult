@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
 #include "TTTMultGameMode.generated.h"
 
 UCLASS(minimalapi)
-class ATTTMultGameMode : public AGameModeBase
+class ATTTMultGameMode : public AGameMode
 {
 	GENERATED_BODY()
 

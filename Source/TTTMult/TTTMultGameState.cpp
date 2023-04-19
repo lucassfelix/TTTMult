@@ -32,5 +32,5 @@ int ATTTMultGameState::CheckEndgame()
 	}
 
 
-	return false;
+	return 0;
 }
