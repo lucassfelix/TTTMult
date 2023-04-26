@@ -14,4 +14,9 @@ class TTTMULT_API ASimpleToeGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
+public:
+
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+
+
 };

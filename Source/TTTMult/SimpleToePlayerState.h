@@ -21,9 +21,12 @@ class TTTMULT_API ASimpleToePlayerState : public APlayerState
 {
 	GENERATED_BODY()
 
+
 public:
+
+	ASimpleToePlayerState();
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite/*, Replicated*/)
 	EPieceType Piece;
 	
 };

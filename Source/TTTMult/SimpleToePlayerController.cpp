@@ -10,6 +10,7 @@
 
 //MyIncludes (Unknown if necessary)
 #include "BoardPiece.h"
+#include "SimpleToePlayerState.h"
 
 ASimpleToePlayerController::ASimpleToePlayerController()
 {
@@ -40,6 +41,22 @@ void ASimpleToePlayerController::SetupInputComponent()
 		CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
 		EnhancedInputComponent->BindAction(ClickAction,ETriggerEvent::Started,this, &ASimpleToePlayerController::OnInputStarted);
+		EnhancedInputComponent->BindAction(LogAction, ETriggerEvent::Started, this, &ASimpleToePlayerController::Log);
+	}
+}
+
+void ASimpleToePlayerController::Log()
+{
+
+	ASimpleToePlayerState* SimpleToePlayerState = Cast<ASimpleToePlayerState>(PlayerState);
+
+	if (SimpleToePlayerState->Piece == EPieceType::P_X)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Eu possuo a peça X"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Eu possuo a peça O"));
 	}
 }
 
@@ -57,12 +74,20 @@ void ASimpleToePlayerController::OnInputStarted()
 	{
 		if (auto* BoardPieceCheck = Cast<ABoardPiece>(Hit.GetActor()))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Eu sou o piece %d"),BoardPieceCheck->GetBoardPosition());
+			auto* ThisPlayerState = Cast<ASimpleToePlayerState>(PlayerState);
+			Server_PlacePiece(ThisPlayerState->Piece, BoardPieceCheck->GetBoardPosition());
 		}
 	}
 }
 
+void ASimpleToePlayerController::Server_PlacePiece_Implementation(EPieceType PieceSent , int BoardPos)
+{
+	Receive_Server_PlacePiece(PieceSent, BoardPos);
+}
 
-
+bool ASimpleToePlayerController::Server_PlacePiece_Validate(EPieceType PieceSent, int BoardPos)
+{
+	return true;
+}
 
 

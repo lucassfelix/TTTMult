@@ -20,12 +20,19 @@ public:
 
 	void SetPlayerControllerTurn(ASimpleToePlayerController& NextPlayer);
 
+	UFUNCTION(BlueprintPure, meta = (WorldContext = "worldContext"))
+	static ASimpleToeGameState* GetSimpleToeGameState(UObject* worldContext);
+
 	//Reference to current player
 	FORCEINLINE ASimpleToePlayerController* GetCurrentPlayerControllerTurn() {return CurrentPlayerControllerTurn;}
 
 	//Reference to board
 	FORCEINLINE TArray<int>* GetBoard() {return &Board;}
-	
+
+	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+	void OnReceivePlayerInput(EPieceType Piece, int BoardPos);
+
+
 private:
 	TArray<int> Board;
 

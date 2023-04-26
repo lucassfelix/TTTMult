@@ -13,4 +13,10 @@ void ASimpleToeGameState::SetPlayerControllerTurn(ASimpleToePlayerController& Ne
 	//CurrentPlayerControllerTurn = NextPlayer;
 }
 
+ASimpleToeGameState* ASimpleToeGameState::GetSimpleToeGameState(UObject* worldContext)
+{
+	UWorld* world = GEngine->GetWorldFromContextObject(worldContext, EGetWorldErrorMode::ReturnNull);
+	return Cast<ASimpleToeGameState>(world->GetGameState());
+}
+
 
