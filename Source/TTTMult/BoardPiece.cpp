@@ -30,4 +30,12 @@ int ABoardPiece::GetBoardPosition()
 	return BoardPosition;
 }
 
+EPieceType ABoardPiece::GetCurrentPiece()
+{
+	return CurrentPiece;
+}
 
+void ABoardPiece::SetCurrentPiece(const EPieceType Piece)
+{
+	CurrentPiece = Piece;
+}

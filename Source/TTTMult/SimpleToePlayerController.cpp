@@ -52,11 +52,11 @@ void ASimpleToePlayerController::Log()
 
 	if (SimpleToePlayerState->Piece == EPieceType::P_X)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Eu possuo a peça X"));
+		UE_LOG(LogTemp, Warning, TEXT("Eu possuo a peï¿½a X"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Eu possuo a peça O"));
+		UE_LOG(LogTemp, Warning, TEXT("Eu possuo a peï¿½a O"));
 	}
 }
 
