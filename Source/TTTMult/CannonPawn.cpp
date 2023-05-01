@@ -3,6 +3,9 @@
 
 #include "CannonPawn.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/GameplayStaticsTypes.h"
+
 // Sets default values
 ACannonPawn::ACannonPawn()
 {
@@ -22,7 +25,20 @@ void ACannonPawn::BeginPlay()
 void ACannonPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	FPredictProjectilePathParams Params;
+	
+	Params.StartLocation = RootComponent->GetComponentLocation();
+	Params.LaunchVelocity = FVector3d(CannonballLaunchVelocityX,CannonballLaunchVelocityY,CannonballLaunchVelocityZ);
+	Params.bTraceWithChannel = true;
+	Params.bTraceWithCollision = true;
+	Params.DrawDebugType = EDrawDebugTrace::ForOneFrame;
+	Params.ProjectileRadius = ProjectileRadius;
+	
+	FPredictProjectilePathResult Results;
+	
+	UGameplayStatics::PredictProjectilePath(GetWorld(), Params,Results);
+ 	
 }
 
 // Called to bind functionality to input

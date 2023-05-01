@@ -43,7 +43,6 @@ bool ASimpleToeGameState::CheckEndgame()
 		&& BoardPieces[0]->GetCurrentPiece() != EPieceType::P_Empty)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 0"));
-		UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 0"));
 		//Vitória da peça BoardPieces[0].
 		return true;
 	}
