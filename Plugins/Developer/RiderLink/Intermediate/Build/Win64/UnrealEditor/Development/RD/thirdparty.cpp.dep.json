@@ -1,10 +1,10 @@
 {
-    "Version": "1.2",
+    "Version": "1.1",
     "Data": {
-        "Source": "c:\\users\\leonardo.pechansky\\documents\\github\\tttmult\\plugins\\developer\\riderlink\\source\\rd\\thirdparty\\thirdparty.cpp",
+        "Source": "d:\\users\\leope\\onedrive - pucrs - br\\desenvolvimento de jogos\\programacao_ii\\tttmult\\plugins\\developer\\riderlink\\source\\rd\\thirdparty\\thirdparty.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\leonardo.pechansky\\documents\\github\\tttmult\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\rd\\definitions.h"
+            "d:\\users\\leope\\onedrive - pucrs - br\\desenvolvimento de jogos\\programacao_ii\\tttmult\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\rd\\definitions.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
