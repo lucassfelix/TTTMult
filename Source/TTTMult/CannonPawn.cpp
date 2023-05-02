@@ -29,7 +29,8 @@ void ACannonPawn::Tick(float DeltaTime)
 	FPredictProjectilePathParams Params;
 	
 	Params.StartLocation = RootComponent->GetComponentLocation();
-	Params.LaunchVelocity = FVector3d(CannonballLaunchVelocityX,CannonballLaunchVelocityY,CannonballLaunchVelocityZ);
+	//Params.LaunchVelocity = FVector3d(CannonballLaunchVelocityX,CannonballLaunchVelocityY,CannonballLaunchVelocityZ);
+    Params.LaunchVelocity = CannonballLaunchVelocity;
 	Params.bTraceWithChannel = true;
 	Params.bTraceWithCollision = true;
 	Params.DrawDebugType = EDrawDebugTrace::ForOneFrame;

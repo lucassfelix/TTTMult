@@ -8,6 +8,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 
+#include "CannonPawn.h"
+
 void ACannonPlayerController::BeginPlay()
 {
 	//Call base class
@@ -19,6 +21,29 @@ void ACannonPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(CannonMappingContext, 0);
 	}
+
+	Initialized = false;
+
+}
+
+void ACannonPlayerController::LateInitialize()
+{
+	CannonPawn = Cast<ACannonPawn>(GetPawn());
+	if (CannonPawn != nullptr)
+	{
+		Initialized = true;
+	}
+}
+
+void ACannonPlayerController::Tick(float DeltaTime)
+{
+	if (!Initialized)
+	{
+		LateInitialize();
+		return;
+	}
+
+	CannonPawn->CannonballLaunchVelocity += FVector(VerticalCurrentStep,0,HorizontalCurrentStep);
 
 }
 
@@ -33,15 +58,23 @@ void ACannonPlayerController::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(UpwardsMovementAction, ETriggerEvent::Started, this, &ACannonPlayerController::OnUpwardMovementStarted);
 		EnhancedInputComponent->BindAction(UpwardsMovementAction, ETriggerEvent::Triggered, this, &ACannonPlayerController::OnUpwardMovementTriggered);
+		EnhancedInputComponent->BindAction(UpwardsMovementAction, ETriggerEvent::Completed, this, &ACannonPlayerController::OnVerticalMovementCanceled);
+
 
 		EnhancedInputComponent->BindAction(DownwardsMovementAction, ETriggerEvent::Started, this, &ACannonPlayerController::OnDownwardMovementStarted);
 		EnhancedInputComponent->BindAction(DownwardsMovementAction, ETriggerEvent::Triggered, this, &ACannonPlayerController::OnDownwardMovementTriggered);
+		EnhancedInputComponent->BindAction(DownwardsMovementAction, ETriggerEvent::Completed, this, &ACannonPlayerController::OnVerticalMovementCanceled);
+
 
 		EnhancedInputComponent->BindAction(LeftMovementAction, ETriggerEvent::Started, this, &ACannonPlayerController::OnLeftMovementStarted);
 		EnhancedInputComponent->BindAction(LeftMovementAction, ETriggerEvent::Triggered, this, &ACannonPlayerController::OnLeftMovementTriggered);
+		EnhancedInputComponent->BindAction(LeftMovementAction, ETriggerEvent::Completed, this, &ACannonPlayerController::OnHorizontalMovementCanceled);
+
 
 		EnhancedInputComponent->BindAction(RightMovementAction, ETriggerEvent::Started, this, &ACannonPlayerController::OnRightMovementStarted);
 		EnhancedInputComponent->BindAction(RightMovementAction, ETriggerEvent::Triggered, this, &ACannonPlayerController::OnRightMovementTriggered);
+		EnhancedInputComponent->BindAction(RightMovementAction, ETriggerEvent::Completed, this, &ACannonPlayerController::OnHorizontalMovementCanceled);
+
 
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ACannonPlayerController::OnShootActionStarted);
 	}
@@ -49,40 +82,88 @@ void ACannonPlayerController::SetupInputComponent()
 
 void ACannonPlayerController::OnUpwardMovementStarted()
 {
-	HorizontalCurrentStep = HorizontalInitialMovementStep;
+	VerticalCurrentStep = VerticalInitialMovementStep;
 }
 
 void ACannonPlayerController::OnUpwardMovementTriggered()
 {
-	//Tilt cannon right
+	if (VerticalCurrentStep <= VerticalMaxMovementStep)
+	{
+		VerticalCurrentStep += VerticalMovementStepIncrease;
+	}
 
-	//Adjust Launch velocity!!
+	if (VerticalCurrentStep > VerticalMaxMovementStep)
+	{
+		VerticalCurrentStep = VerticalMaxMovementStep;
+	}
 }
 
 void ACannonPlayerController::OnDownwardMovementStarted()
 {
+	VerticalCurrentStep = -VerticalInitialMovementStep;
 }
 
 void ACannonPlayerController::OnDownwardMovementTriggered()
 {
+	if (FGenericPlatformMath::Abs(VerticalCurrentStep) <= VerticalMaxMovementStep)
+	{
+		VerticalCurrentStep -= VerticalMovementStepIncrease;
+	}
+
+	if (FGenericPlatformMath::Abs(VerticalCurrentStep) > VerticalMaxMovementStep)
+	{
+		VerticalCurrentStep = -VerticalMaxMovementStep;
+	}
 }
+
 
 void ACannonPlayerController::OnLeftMovementStarted()
 {
+	HorizontalCurrentStep = -HorizontalInitialMovementStep;
 }
 
 void ACannonPlayerController::OnLeftMovementTriggered()
 {
+	if (FGenericPlatformMath::Abs(HorizontalCurrentStep) <= HorizontalMaxMovementStep)
+	{
+		HorizontalCurrentStep -= HorizontalMovementStepIncrease;
+	}
+
+	if (FGenericPlatformMath::Abs(HorizontalCurrentStep) > HorizontalMaxMovementStep)
+	{
+		HorizontalCurrentStep = -HorizontalMaxMovementStep;
+	}
 }
+
 
 void ACannonPlayerController::OnRightMovementStarted()
 {
+	HorizontalCurrentStep = HorizontalInitialMovementStep;
 }
 
 void ACannonPlayerController::OnRightMovementTriggered()
 {
+	if (FGenericPlatformMath::Abs(HorizontalCurrentStep) <= HorizontalMaxMovementStep)
+	{
+		HorizontalCurrentStep += HorizontalMovementStepIncrease;
+	}
+
+	if (FGenericPlatformMath::Abs(HorizontalCurrentStep) > HorizontalMaxMovementStep)
+	{
+		HorizontalCurrentStep = HorizontalMaxMovementStep;
+	}
 }
 
 void ACannonPlayerController::OnShootActionStarted()
 {
+}
+
+void ACannonPlayerController::OnHorizontalMovementCanceled()
+{
+	HorizontalCurrentStep = 0;
+}
+
+void ACannonPlayerController::OnVerticalMovementCanceled()
+{
+	VerticalCurrentStep = 0;
 }

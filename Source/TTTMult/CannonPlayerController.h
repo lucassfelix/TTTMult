@@ -16,6 +16,7 @@ class TTTMULT_API ACannonPlayerController : public APlayerController
 	
 public:
 
+
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
 	float HorizontalMaxMovementStep;
 
@@ -60,17 +61,23 @@ public:
 
 protected:
 
+	bool Initialized;
+
+	class ACannonPawn* CannonPawn;
+
 	UPROPERTY(BlueprintReadWrite)
 	float HorizontalCurrentStep;
 
 	UPROPERTY(BlueprintReadWrite)
 	float VerticalCurrentStep;
 	
-	
 	virtual void SetupInputComponent() override;
 
 	virtual void BeginPlay() override;
+	
+	virtual void Tick(float DeltaTime) override;
 
+	void LateInitialize();
 
 	//Funcions for input 
 	void OnUpwardMovementStarted();
@@ -79,11 +86,15 @@ protected:
 	void OnDownwardMovementStarted();
 	void OnDownwardMovementTriggered();
 
+	void OnVerticalMovementCanceled();
+
 	void OnLeftMovementStarted();
 	void OnLeftMovementTriggered();
 
 	void OnRightMovementStarted();
 	void OnRightMovementTriggered();
+
+	void OnHorizontalMovementCanceled();
 
 	void OnShootActionStarted();
 };
