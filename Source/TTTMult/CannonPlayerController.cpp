@@ -22,6 +22,7 @@ void ACannonPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(CannonMappingContext, 0);
 	}
 
+
 	Initialized = false;
 
 }
@@ -43,7 +44,7 @@ void ACannonPlayerController::Tick(float DeltaTime)
 		return;
 	}
 
-	CannonPawn->CannonballLaunchVelocity += FVector(VerticalCurrentStep,0,HorizontalCurrentStep);
+	CannonPawn->CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep,0);
 
 }
 
