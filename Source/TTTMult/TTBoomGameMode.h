@@ -4,19 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
-#include "SimpleToeGameMode.generated.h"
+#include "TTBoomGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TTTMULT_API ASimpleToeGameMode : public AGameMode
+class TTTMULT_API ATTBoomGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
-public:
-
-	virtual void PostLogin(APlayerController* NewPlayer) override;
-
-
 };

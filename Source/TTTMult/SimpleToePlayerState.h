@@ -14,16 +14,22 @@ UENUM(BlueprintType)
 enum class EPieceType : uint8
 {
 	P_X	UMETA(DisplayName="X"),
-	P_O	UMETA(DisplayName="O")
+	P_O	UMETA(DisplayName="O"),
+	P_Empty UMETA(DisplayName="Empty")
 };
+
+
 UCLASS()
 class TTTMULT_API ASimpleToePlayerState : public APlayerState
 {
 	GENERATED_BODY()
 
+
 public:
+
+	ASimpleToePlayerState();
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite/*, Replicated*/)
 	EPieceType Piece;
 	
 };

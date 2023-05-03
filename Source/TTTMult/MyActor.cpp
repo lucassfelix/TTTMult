@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BoardPiece.h"
+#include "MyActor.h"
 
 // Sets default values
-ABoardPiece::ABoardPiece()
+AMyActor::AMyActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,30 +12,16 @@ ABoardPiece::ABoardPiece()
 }
 
 // Called when the game starts or when spawned
-void ABoardPiece::BeginPlay()
+void AMyActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ABoardPiece::Tick(float DeltaTime)
+void AMyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-int ABoardPiece::GetBoardPosition()
-{
-	return BoardPosition;
-}
-
-EPieceType ABoardPiece::GetCurrentPiece()
-{
-	return CurrentPiece;
-}
-
-void ABoardPiece::SetCurrentPiece(const EPieceType Piece)
-{
-	CurrentPiece = Piece;
-}

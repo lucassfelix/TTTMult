@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SimpleToePlayerState.h"
 #include "GameFramework/Actor.h"
 #include "BoardPiece.generated.h"
 
@@ -25,10 +26,21 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	int GetBoardPosition();
+	
+	UFUNCTION(BlueprintPure)
+	EPieceType GetCurrentPiece();
+
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentPiece(const EPieceType Piece);
+
+	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+	void OnChangeMaterial(UMaterialInterface* Material);
 
 private:
 
 	UPROPERTY(EditAnywhere,Category="TicTacToe")
 	int BoardPosition;
+
+	EPieceType CurrentPiece;
 	
 };
