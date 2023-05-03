@@ -47,7 +47,9 @@ SourceArt/**/*.tga
 
 # Binary Files
 Binaries/*
-Plugins/*/Binaries/*
+Plugins/**/Binaries/*
+
+**/Plugins
 
 # Builds
 Build/*
@@ -68,7 +70,63 @@ Saved/*
 
 # Compiled source files for the engine to use
 Intermediate/*
-Plugins/*/Intermediate/*
+Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+build
+output
+.gradle
+.tmp
+out/*
+*.generated.*
+NuGet.Config
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.sln.binlog
+*.cache
+
+# IDEs
+.idea
+.vs
+_ReSharper*
+_dotTrace*
+
+# Unreal Plugin generated files
+**/RiderLink/RiderLink.uplugin
+**/RiderLink/checksum
+**/RiderLink/Binaries
+**/RiderLink/Intermediate
+**/RiderLink/Source/RiderLink/Public/Model
+# rd-cpp extra files
+CMakeLists.txt
+**/RiderLink/Source/RD/**/.*
+**/RiderLink/Source/RD/**/*.yml
+**/RiderLink/Source/RD/**/test
+**/RiderLink/Source/RD/**/tests
+**/RiderLink/Source/RD/**/bench
+**/RiderLink/Source/RD/**/example
+**/RiderLink/Source/RD/**/pch.*
+**/RiderLink/Source/RD/**/INSTALL
+**/RiderLink/Source/RD/**/doxygen.conf
+
+# Local setup specific files
+UnrealEngineProjectPath.txt
+dependencies/*
+
+# Tmp release files
+release_notes.md
+
+# Zipper
+tools/Zipper/*
+!tools/Zipper/Program.cs
+!tools/Zipper/Zipper.csproj
+!tools/Zipper/Zipper.sln
+**/RiderLink/Resources/checksum
