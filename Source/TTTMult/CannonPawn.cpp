@@ -30,7 +30,7 @@ void ACannonPawn::Tick(float DeltaTime)
 	
 	Params.StartLocation = RootComponent->GetComponentLocation();
 	//Params.LaunchVelocity = FVector3d(CannonballLaunchVelocityX,CannonballLaunchVelocityY,CannonballLaunchVelocityZ);
-    Params.LaunchVelocity = CannonballLaunchVelocity + FVector(0,0,100);
+    Params.LaunchVelocity = CannonballLaunchVelocity + FVector(0,0,CannonballLaunchVelocityZ);
 	Params.bTraceWithChannel = true;
 	Params.bTraceWithCollision = true;
 	Params.DrawDebugType = EDrawDebugTrace::ForOneFrame;

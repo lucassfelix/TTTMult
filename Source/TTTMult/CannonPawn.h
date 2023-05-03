@@ -29,13 +29,7 @@ public:
 	FVector CannonballLaunchVelocity;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	double CannonballLaunchVelocityX;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	double CannonballLaunchVelocityY;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	double CannonballLaunchVelocityZ;
+	float CannonballLaunchVelocityZ;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float ProjectileRadius;
