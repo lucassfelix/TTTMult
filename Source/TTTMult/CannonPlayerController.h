@@ -70,6 +70,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ShootAction;
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void ReceiveOnBallHit(EPlayerTeam ShotBy, AActor* Other);
+
 protected:
 
 	bool Initialized;

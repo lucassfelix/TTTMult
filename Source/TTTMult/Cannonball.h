@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TTBoomPlayerState.h"
 #include "GameFramework/Actor.h"
 #include "Cannonball.generated.h"
 
@@ -23,6 +24,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(BlueprintReadWrite)
+	EPlayerTeam ShotBy;
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void Launch(FVector LaunchVelocity);
 	
