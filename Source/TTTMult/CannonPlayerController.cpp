@@ -9,6 +9,7 @@
 #include "Engine/LocalPlayer.h"
 
 #include "CannonPawn.h"
+#include "TTBoomPlayerState.h"
 
 void ACannonPlayerController::BeginPlay()
 {
@@ -22,16 +23,33 @@ void ACannonPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(CannonMappingContext, 0);
 	}
 
+	InvertIfTeam = EPlayerTeam::P_O;
 
 	Initialized = false;
 
+	
 }
 
 void ACannonPlayerController::LateInitialize()
 {
-	CannonPawn = Cast<ACannonPawn>(GetPawn());
-	if (CannonPawn != nullptr)
+	if (CannonPawn == nullptr)
 	{
+		CannonPawn = Cast<ACannonPawn>(GetPawn());
+	}
+
+	if (BoomPlayerState == nullptr)
+	{
+		BoomPlayerState = GetPlayerState<ATTBoomPlayerState>();
+	}
+
+	if(BoomPlayerState != nullptr && CannonPawn != nullptr)
+	{
+		CannonballLaunchVelocity =
+			BoomPlayerState->PlayerTeam == InvertIfTeam
+			? FVector(-InitialCannonVelocity,0,CannonballLaunchVelocityZ)
+			: FVector(InitialCannonVelocity,0,CannonballLaunchVelocityZ);
+		
+		CannonPawn->SetupInitialVelocity(CannonballLaunchVelocity);
 		Initialized = true;
 	}
 }
@@ -44,7 +62,18 @@ void ACannonPlayerController::Tick(float DeltaTime)
 		return;
 	}
 
-	CannonPawn->CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep,0);
+	
+	if (BoomPlayerState->PlayerTeam == InvertIfTeam )
+	{
+		CannonballLaunchVelocity += FVector(-VerticalCurrentStep, -HorizontalCurrentStep,0);
+	}
+	else
+	{
+		CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep,0);
+
+	}
+
+	CannonPawn->CannonballLaunchVelocity = CannonballLaunchVelocity;
 
 }
 
@@ -157,6 +186,14 @@ void ACannonPlayerController::OnRightMovementTriggered()
 
 void ACannonPlayerController::OnShootActionStarted()
 {
+	if (BoomPlayerState->PlayerTeam == EPlayerTeam::P_X)
+	{
+		UE_LOG(LogTemp,Warning, TEXT("Sou do time X"));
+	}
+	else
+	{
+		UE_LOG(LogTemp,Warning, TEXT("Sou do time O"));
+	}
 }
 
 void ACannonPlayerController::OnHorizontalMovementCanceled()

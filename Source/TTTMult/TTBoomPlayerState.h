@@ -27,11 +27,11 @@ class TTTMULT_API ATTBoomPlayerState : public APlayerState
 public:
 
 	//Stores player team information.
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly, VisibleInstanceOnly)
 	EPlayerTeam PlayerTeam;
 
 	//Is this player the team leader?
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, VisibleInstanceOnly)
 	bool IsTeamLeader;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)

@@ -13,5 +13,10 @@ UCLASS()
 class TTTMULT_API ATTBoomGameState : public AGameState
 {
 	GENERATED_BODY()
+
+public:
+
+	UFUNCTION(BlueprintPure, meta = (WorldContext = "worldContext"))
+	static ATTBoomGameState* GetTTBoomGameState(UObject* worldContext);
 	
 };

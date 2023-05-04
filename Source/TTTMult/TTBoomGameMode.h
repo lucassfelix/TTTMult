@@ -13,5 +13,17 @@ UCLASS()
 class TTTMULT_API ATTBoomGameMode : public AGameMode
 {
 	GENERATED_BODY()
+
+
+public:
+
+	TArray<APlayerController*> PlayerControllerList;
+	
+	virtual bool ReadyToStartMatch_Implementation() override;
+	
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+
 	
 };
