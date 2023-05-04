@@ -26,16 +26,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void SetupInitialVelocity(FVector InitialPath);
+	
 	FVector CannonballLaunchVelocity;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	double CannonballLaunchVelocityX;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	double CannonballLaunchVelocityY;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	double CannonballLaunchVelocityZ;
+	
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float ProjectileRadius;

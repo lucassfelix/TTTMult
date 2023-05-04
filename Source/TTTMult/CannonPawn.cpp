@@ -11,7 +11,6 @@ ACannonPawn::ACannonPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -30,10 +29,10 @@ void ACannonPawn::Tick(float DeltaTime)
 	
 	Params.StartLocation = RootComponent->GetComponentLocation();
 	//Params.LaunchVelocity = FVector3d(CannonballLaunchVelocityX,CannonballLaunchVelocityY,CannonballLaunchVelocityZ);
-    Params.LaunchVelocity = CannonballLaunchVelocity + FVector(0,0,100);
-	Params.bTraceWithChannel = true;
+    Params.LaunchVelocity = CannonballLaunchVelocity;
 	Params.bTraceWithCollision = true;
 	Params.DrawDebugType = EDrawDebugTrace::ForOneFrame;
+	Params.MaxSimTime = 10;
 	Params.ProjectileRadius = ProjectileRadius;
 	
 	FPredictProjectilePathResult Results;
@@ -47,5 +46,10 @@ void ACannonPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ACannonPawn::SetupInitialVelocity(FVector InitialPath)
+{
+	CannonballLaunchVelocity = InitialPath;
 }
 

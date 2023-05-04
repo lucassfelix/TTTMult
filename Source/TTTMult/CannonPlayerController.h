@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TTBoomPlayerState.h"
 #include "GameFramework/PlayerController.h"
 #include "CannonPlayerController.generated.h"
 
@@ -16,6 +17,13 @@ class TTTMULT_API ACannonPlayerController : public APlayerController
 	
 public:
 
+	EPlayerTeam InvertIfTeam;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Cannon Movement")
+	float InitialCannonVelocity;
+
+	UPROPERTY(EditDefaultsOnly,  Category = "Cannon Movement")
+	float CannonballLaunchVelocityZ;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
 	float HorizontalMaxMovementStep;
@@ -34,6 +42,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
 	float VerticalInitialMovementStep;
+
+	UPROPERTY(BlueprintReadOnly)
+	FVector CannonballLaunchVelocity;
 
 	/** Mapping Context**/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -62,7 +73,9 @@ public:
 protected:
 
 	bool Initialized;
-
+	
+	class ATTBoomPlayerState* BoomPlayerState;
+	
 	class ACannonPawn* CannonPawn;
 
 	UPROPERTY(BlueprintReadWrite)
