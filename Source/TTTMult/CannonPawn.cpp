@@ -29,16 +29,14 @@ void ACannonPawn::Tick(float DeltaTime)
 	
 	Params.StartLocation = RootComponent->GetComponentLocation();
 	//Params.LaunchVelocity = FVector3d(CannonballLaunchVelocityX,CannonballLaunchVelocityY,CannonballLaunchVelocityZ);
-    Params.LaunchVelocity = CannonballLaunchVelocity;
+    	Params.LaunchVelocity = CannonballLaunchVelocity;
 	Params.bTraceWithCollision = true;
 	Params.DrawDebugType = EDrawDebugTrace::ForOneFrame;
 	Params.MaxSimTime = 10;
 	Params.ProjectileRadius = ProjectileRadius;
 	
-	FPredictProjectilePathResult Results;
 	
-	UGameplayStatics::PredictProjectilePath(GetWorld(), Params,Results);
- 	
+ 	Server_SendDrawAim(Params);
 }
 
 // Called to bind functionality to input
@@ -52,4 +50,26 @@ void ACannonPawn::SetupInitialVelocity(FVector InitialPath)
 {
 	CannonballLaunchVelocity = InitialPath;
 }
+
+void ACannonPawn::Server_SendDrawAim_Implementation(FPredictProjectilePathParams Params)
+{
+	Multiacst_DrawAim(Params);
+}
+
+bool ACannonPawn::Server_SendDrawAim_Validate(FPredictProjectilePathParams Params)
+{
+	return true;
+}
+
+void ACannonPawn::Multiacst_DrawAim(FPredictProjectilePathParams Params)
+{
+	FPredictProjectilePathResult Results;
+	
+	UGameplayStatics::PredictProjectilePath(GetWorld(), Params,Results);
+}
+
+
+
+
+
 
