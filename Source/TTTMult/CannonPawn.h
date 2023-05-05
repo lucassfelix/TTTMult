@@ -29,9 +29,15 @@ public:
 	void SetupInitialVelocity(FVector InitialPath);
 	
 	FVector CannonballLaunchVelocity;
-
-	
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float ProjectileRadius;
+	
+	// Server RPC for telling server to draw player aim.
+	UFUNCTION(Server, unreliable, WithValidation)
+	void Server_SendDrawAim(FPredictProjectilePathParams Params);
+	
+	// Multicast RPC for drawning (replicating) player aim in all clients.
+	UFUNCTION(NetMulticast, unreliable)
+	void Multiacst_DrawAim(FPredictProjectilePathParams Params);
 };
