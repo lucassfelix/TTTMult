@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Kismet/GameplayStaticsTypes.h"
 #include "CannonPawn.generated.h"
 
 UCLASS()
@@ -19,6 +20,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	bool ShouldDrawAim = false;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -40,4 +43,6 @@ public:
 	// Multicast RPC for drawning (replicating) player aim in all clients.
 	UFUNCTION(NetMulticast, unreliable)
 	void Multiacst_DrawAim(FPredictProjectilePathParams Params);
+
+	virtual void PossessedBy(AController* NewController) override;
 };
