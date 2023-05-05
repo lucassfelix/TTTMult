@@ -19,9 +19,17 @@ public:
 
 	EPlayerTeam InvertIfTeam;
 	
+	/**
+	///
+	///  Cannon Movement Variables
+	///
+	**/
+	
+	/** Direction the cannon will be pointing at Game Start **/
 	UPROPERTY(EditDefaultsOnly, Category="Cannon Movement")
 	float InitialCannonVelocity;
 
+	/** The height (Z) of the Cannonball arch **/
 	UPROPERTY(EditDefaultsOnly,  Category = "Cannon Movement")
 	float CannonballLaunchVelocityZ;
 
@@ -45,6 +53,12 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	FVector CannonballLaunchVelocity;
+
+	/**
+	///
+	///  Input Mapping Variables
+	///
+	**/
 
 	/** Mapping Context**/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -70,22 +84,30 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ShootAction;
 
+	/**
+	///
+	/// Events
+	///
+	**/
+
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ReceiveOnBallHit(EPlayerTeam ShotBy, AActor* Other);
 
 protected:
 
-	bool Initialized;
+        UPROPERTY(BlueprintReadWrite)
+	float HorizontalCurrentStep;
+
+	UPROPERTY(BlueprintReadWrite)
+	float VerticalCurrentStep;
 	
 	class ATTBoomPlayerState* BoomPlayerState;
 	
 	class ACannonPawn* CannonPawn;
 
-	UPROPERTY(BlueprintReadWrite)
-	float HorizontalCurrentStep;
-
-	UPROPERTY(BlueprintReadWrite)
-	float VerticalCurrentStep;
+	bool Initialized;
+	
+	void LateInitialize();
 	
 	virtual void SetupInputComponent() override;
 
@@ -93,23 +115,25 @@ protected:
 	
 	virtual void Tick(float DeltaTime) override;
 
-	void LateInitialize();
-
-	//Funcions for input 
+	/**
+	///
+	/// Input handlers
+	///
+	**/
+	
 	void OnUpwardMovementStarted();
 	void OnUpwardMovementTriggered();
 
 	void OnDownwardMovementStarted();
 	void OnDownwardMovementTriggered();
 
-	void OnVerticalMovementCanceled();
-
 	void OnLeftMovementStarted();
 	void OnLeftMovementTriggered();
 
 	void OnRightMovementStarted();
 	void OnRightMovementTriggered();
-
+	
+	void OnVerticalMovementCanceled();
 	void OnHorizontalMovementCanceled();
 
 	void OnShootActionStarted();
