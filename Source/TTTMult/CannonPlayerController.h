@@ -18,7 +18,22 @@ class TTTMULT_API ACannonPlayerController : public APlayerController
 public:
 
 	EPlayerTeam InvertIfTeam;
-	
+
+	/**
+	///
+	///  Cannon Shot Variables
+	///
+	**/
+
+	UPROPERTY(BlueprintReadWrite)
+	float TimeBetweenLastShot_Server;
+
+	UPROPERTY(BlueprintReadWrite)
+	float TimeBetweenLastShot_Client;
+
+	UPROPERTY(EditAnywhere, Category = "Cannon Shot")
+	float CooldownBetweenShots;
+
 	/**
 	///
 	///  Cannon Movement Variables
@@ -51,7 +66,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
 	float VerticalInitialMovementStep;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CannonballLaunchVelocity)
 	FVector CannonballLaunchVelocity;
 
 	/**
@@ -93,6 +108,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ReceiveOnBallHit(EPlayerTeam ShotBy, AActor* Other);
 
+	UFUNCTION()
+	void OnRep_CannonballLaunchVelocity();
+
+
 protected:
 
         UPROPERTY(BlueprintReadWrite)
@@ -107,7 +126,7 @@ protected:
 
 	bool Initialized;
 	
-	void LateInitialize();
+	bool LateInitialize();
 	
 	virtual void SetupInputComponent() override;
 

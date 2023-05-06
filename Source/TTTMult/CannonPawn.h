@@ -32,10 +32,16 @@ public:
 	void SetupInitialVelocity(FVector InitialPath);
 	
 	FVector CannonballLaunchVelocity;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool SendToServer;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float ProjectileRadius;
-	
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float MaxSimTime;
+
 	// Server RPC for telling server to draw player aim.
 	UFUNCTION(Server, unreliable, WithValidation)
 	void Server_SendDrawAim(FPredictProjectilePathParams Params);
@@ -43,6 +49,8 @@ public:
 	// Multicast RPC for drawning (replicating) player aim in all clients.
 	UFUNCTION(NetMulticast, unreliable)
 	void Multiacst_DrawAim(FPredictProjectilePathParams Params);
+
+	void DrawPath(FVector LaunchVelocity);
 
 	virtual void PossessedBy(AController* NewController) override;
 };
