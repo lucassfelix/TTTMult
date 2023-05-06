@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Kismet/GameplayStaticsTypes.h"
 #include "CannonPawn.generated.h"
 
 UCLASS()
@@ -19,6 +20,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	bool ShouldDrawAim = false;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -30,8 +33,24 @@ public:
 	
 	FVector CannonballLaunchVelocity;
 
-	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool SendToServer;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float ProjectileRadius;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float MaxSimTime;
+
+	// Server RPC for telling server to draw player aim.
+	UFUNCTION(Server, unreliable, WithValidation)
+	void Server_SendDrawAim(FPredictProjectilePathParams Params);
+	
+	// Multicast RPC for drawning (replicating) player aim in all clients.
+	UFUNCTION(NetMulticast, unreliable)
+	void Multiacst_DrawAim(FPredictProjectilePathParams Params);
+
+	void DrawPath(FVector LaunchVelocity);
+
+	virtual void PossessedBy(AController* NewController) override;
 };

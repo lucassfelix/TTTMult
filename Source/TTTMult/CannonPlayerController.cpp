@@ -10,6 +10,8 @@
 
 #include "CannonPawn.h"
 #include "TTBoomPlayerState.h"
+#include "Net/UnrealNetwork.h"
+
 
 void ACannonPlayerController::BeginPlay()
 {
@@ -30,8 +32,10 @@ void ACannonPlayerController::BeginPlay()
 	
 }
 
-void ACannonPlayerController::LateInitialize()
+bool ACannonPlayerController::LateInitialize()
 {
+	if (Initialized) return true;
+
 	if (CannonPawn == nullptr)
 	{
 		CannonPawn = Cast<ACannonPawn>(GetPawn());
@@ -52,16 +56,13 @@ void ACannonPlayerController::LateInitialize()
 		CannonPawn->SetupInitialVelocity(CannonballLaunchVelocity);
 		Initialized = true;
 	}
+
+	return Initialized;
 }
 
 void ACannonPlayerController::Tick(float DeltaTime)
 {
-	if (!Initialized)
-	{
-		LateInitialize();
-		return;
-	}
-
+	if (!LateInitialize()) return;
 	
 	if (BoomPlayerState->PlayerTeam == InvertIfTeam )
 	{
@@ -73,8 +74,21 @@ void ACannonPlayerController::Tick(float DeltaTime)
 
 	}
 
-	CannonPawn->CannonballLaunchVelocity = CannonballLaunchVelocity;
+	//CannonPawn->CannonballLaunchVelocity = CannonballLaunchVelocity;
 
+	if (HasAuthority())
+	{
+		TimeBetweenLastShot_Server += DeltaTime;
+	}
+
+	TimeBetweenLastShot_Client += DeltaTime;
+}
+
+void ACannonPlayerController::OnRep_CannonballLaunchVelocity()
+{
+	if (!LateInitialize()) return;
+
+	CannonPawn->DrawPath(CannonballLaunchVelocity);
 }
 
 void ACannonPlayerController::SetupInputComponent()
@@ -204,4 +218,15 @@ void ACannonPlayerController::OnHorizontalMovementCanceled()
 void ACannonPlayerController::OnVerticalMovementCanceled()
 {
 	VerticalCurrentStep = 0;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//		Replication List
+void ACannonPlayerController::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+
+	//Cannonball Launch Velocity
+	DOREPLIFETIME(ACannonPlayerController, CannonballLaunchVelocity);
 }
