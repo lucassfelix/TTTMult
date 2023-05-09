@@ -114,6 +114,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ReceiveOnBallHit(EPlayerTeam ShotBy, AActor* Other);
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void OnSpawnCannonball(FVector LaunchVelocity, EPlayerTeam Team, FTransform StartLocation);
+
 protected:
 
     UPROPERTY(BlueprintReadWrite)

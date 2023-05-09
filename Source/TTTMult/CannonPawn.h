@@ -34,6 +34,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float MaxSimTime;
-
+	
 	void DrawPath(FVector LaunchVelocity);
 };

@@ -214,7 +214,10 @@ void ACannonPlayerController::OnShootActionTriggered()
 
 void ACannonPlayerController::OnShootActionCanceled()
 {
+	EPlayerTeam Team = BoomPlayerState->PlayerTeam;
+	OnSpawnCannonball(CannonballLaunchVelocity, Team, CannonPawn->GetRootComponent()->GetComponentTransform());
 	CannonballLaunchVelocity = FVector(CannonballLaunchVelocity.X, CannonballLaunchVelocity.Y, HeightInitialStep);
+	HeightCurrentStep = 0;
 }
 
 void ACannonPlayerController::OnHorizontalMovementCanceled()

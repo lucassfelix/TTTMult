@@ -24,11 +24,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite);
+	UMaterialInterface* EmptyMaterial;
+	
 	UFUNCTION(BlueprintPure)
 	int GetBoardPosition();
 	
 	UFUNCTION(BlueprintPure)
 	EPieceType GetCurrentPiece();
+		
+	void ResetPiece();
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentPiece(const EPieceType Piece);

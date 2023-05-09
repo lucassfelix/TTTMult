@@ -11,9 +11,7 @@
 bool ATTBoomGameMode::ReadyToStartMatch_Implementation()
 {
 	Super::ReadyToStartMatch_Implementation();
-
-
-	return NumPlayers == 2;
+	return ReadyToStart;
 }
 
 AActor* ATTBoomGameMode::ChoosePlayerStart_Implementation(AController* Player)

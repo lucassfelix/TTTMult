@@ -23,16 +23,19 @@ void ATTBoomGameState::SortPieces()
 		
 }
 
-bool ATTBoomGameState::CheckEndgame()
+//-1 = Not finished
+//0 = DRAW
+//1 = X_Wins
+//2 = O_Wins
+int ATTBoomGameState::CheckEndgame()
 {
 
 	if(BoardPieces[0]->GetCurrentPiece() == BoardPieces[4]->GetCurrentPiece()
 		&& BoardPieces[0]->GetCurrentPiece() == BoardPieces[8]->GetCurrentPiece()
 		&& BoardPieces[0]->GetCurrentPiece() != EPieceType::P_Empty)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 0"));
 		//Vitória da peça BoardPieces[0].
-		return true;
+		return BoardPieces[0]->GetCurrentPiece() == EPieceType::P_X ? 1 : 2;
 	}
 
 	if(BoardPieces[2]->GetCurrentPiece() == BoardPieces[4]->GetCurrentPiece()
@@ -40,8 +43,7 @@ bool ATTBoomGameState::CheckEndgame()
 		&& BoardPieces[2]->GetCurrentPiece() != EPieceType::P_Empty)
 	{
 		//Vitória da peça BoardPieces[2].
-		UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 1"));
-		return true;
+		return BoardPieces[2]->GetCurrentPiece() == EPieceType::P_X ? 1 : 2;
 	}
 	
 	for (int i = 0; i < 3; i++)
@@ -51,9 +53,8 @@ bool ATTBoomGameState::CheckEndgame()
 			&& BoardPieces[HIndex]->GetCurrentPiece() == BoardPieces[HIndex+2]->GetCurrentPiece()
 			&& BoardPieces[HIndex]->GetCurrentPiece() != EPieceType::P_Empty)
 		{
-			//Vitória da peça BoardPieces[i].
-			UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 2"));
-			return true;
+			//Vitória da peça BoardPieces[HIndex].
+			return BoardPieces[HIndex]->GetCurrentPiece() == EPieceType::P_X ? 1 : 2;
 		}
 
 		if(BoardPieces[i]->GetCurrentPiece() == BoardPieces[i+3]->GetCurrentPiece()
@@ -61,8 +62,7 @@ bool ATTBoomGameState::CheckEndgame()
 			&& BoardPieces[i]->GetCurrentPiece() != EPieceType::P_Empty)
 		{
 			//Vitória da peça BoardPieces[i].
-			UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 3"));
-			return true;
+			return BoardPieces[i]->GetCurrentPiece() == EPieceType::P_X ? 1 : 2;
 		}
 	}
 
@@ -71,11 +71,16 @@ bool ATTBoomGameState::CheckEndgame()
 	{
 		if(BoardPiece->GetCurrentPiece() == EPieceType::P_Empty)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 4"));
-			return false;
+			return -1;
 		}
 	}
+	return 0;
+}
 
-	UE_LOG(LogTemp, Warning, TEXT("Exited at func end"));
-	return true;
+void ATTBoomGameState::ResetGamePieces()
+{
+	for (auto BoardPiece : BoardPieces			)
+	{
+		BoardPiece->ResetPiece();
+	}
 }

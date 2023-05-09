@@ -29,6 +29,9 @@ private:
 	void SortPieces();
 	
 	UFUNCTION(BlueprintCallable)
-	bool CheckEndgame();
+	int CheckEndgame();
+
+	UFUNCTION(BlueprintCallable)
+	void ResetGamePieces();
 	
 };

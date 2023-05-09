@@ -18,6 +18,9 @@ class TTTMULT_API ATTBoomGameMode : public AGameMode
 public:
 
 	TArray<APlayerController*> PlayerControllerList;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool ReadyToStart;
 	
 	virtual bool ReadyToStartMatch_Implementation() override;
 	
