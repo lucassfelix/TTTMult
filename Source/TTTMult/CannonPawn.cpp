@@ -24,8 +24,6 @@ void ACannonPawn::BeginPlay()
 void ACannonPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	
 }
 
 void ACannonPawn::DrawPath(FVector LaunchVelocity)
@@ -53,33 +51,7 @@ void ACannonPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 }
 
-void ACannonPawn::SetupInitialVelocity(FVector InitialPath)
-{
-	CannonballLaunchVelocity = InitialPath;
-}
 
-void ACannonPawn::PossessedBy(AController* NewController)
-{
-	Super::PossessedBy(NewController);
-	ShouldDrawAim = true;
-}
-
-void ACannonPawn::Multiacst_DrawAim_Implementation(FPredictProjectilePathParams Params)
-{
-	FPredictProjectilePathResult Results;
-	
-	UGameplayStatics::PredictProjectilePath(GetWorld(), Params,Results);
-}
-
-void ACannonPawn::Server_SendDrawAim_Implementation(FPredictProjectilePathParams Params)
-{
-	Multiacst_DrawAim(Params);
-}
-
-bool ACannonPawn::Server_SendDrawAim_Validate(FPredictProjectilePathParams Params)
-{
-	return true;
-}
 
 
 

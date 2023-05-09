@@ -45,8 +45,14 @@ public:
 	float InitialCannonVelocity;
 
 	/** The height (Z) of the Cannonball arch **/
-	UPROPERTY(EditDefaultsOnly,  Category = "Cannon Movement")
-	float CannonballLaunchVelocityZ;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly,  Category = "Cannon Movement")
+	float HeightInitialStep;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
+	float HeightMaxStep;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
+	float HeightStepIncrease;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
 	float HorizontalMaxMovementStep;
@@ -66,7 +72,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
 	float VerticalInitialMovementStep;
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CannonballLaunchVelocity)
+	UPROPERTY(BlueprintReadOnly)
 	FVector CannonballLaunchVelocity;
 
 	/**
@@ -108,17 +114,16 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ReceiveOnBallHit(EPlayerTeam ShotBy, AActor* Other);
 
-	UFUNCTION()
-	void OnRep_CannonballLaunchVelocity();
-
-
 protected:
 
-        UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite)
 	float HorizontalCurrentStep;
 
 	UPROPERTY(BlueprintReadWrite)
 	float VerticalCurrentStep;
+
+	UPROPERTY(BlueprintReadWrite)
+	float HeightCurrentStep;
 	
 	class ATTBoomPlayerState* BoomPlayerState;
 	
@@ -156,4 +161,8 @@ protected:
 	void OnHorizontalMovementCanceled();
 
 	void OnShootActionStarted();
+	void OnShootActionTriggered();
+	void OnShootActionCanceled();
+
+	
 };

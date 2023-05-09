@@ -50,10 +50,10 @@ bool ACannonPlayerController::LateInitialize()
 	{
 		CannonballLaunchVelocity =
 			BoomPlayerState->PlayerTeam == InvertIfTeam
-			? FVector(-InitialCannonVelocity,0,CannonballLaunchVelocityZ)
-			: FVector(InitialCannonVelocity,0,CannonballLaunchVelocityZ);
+			? FVector(-InitialCannonVelocity,0,HeightInitialStep)
+			: FVector(InitialCannonVelocity,0, HeightInitialStep);
 		
-		CannonPawn->SetupInitialVelocity(CannonballLaunchVelocity);
+		CannonPawn->DrawPath(CannonballLaunchVelocity);
 		Initialized = true;
 	}
 
@@ -66,15 +66,17 @@ void ACannonPlayerController::Tick(float DeltaTime)
 	
 	if (BoomPlayerState->PlayerTeam == InvertIfTeam )
 	{
-		CannonballLaunchVelocity += FVector(-VerticalCurrentStep, -HorizontalCurrentStep,0);
+		CannonballLaunchVelocity += FVector(-VerticalCurrentStep, -HorizontalCurrentStep,HeightCurrentStep);
 	}
 	else
 	{
-		CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep,0);
+		CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep, HeightCurrentStep);
 
 	}
-
-	//CannonPawn->CannonballLaunchVelocity = CannonballLaunchVelocity;
+	if (IsLocalPlayerController())
+	{
+		CannonPawn->DrawPath(CannonballLaunchVelocity);
+	}
 
 	if (HasAuthority())
 	{
@@ -82,13 +84,6 @@ void ACannonPlayerController::Tick(float DeltaTime)
 	}
 
 	TimeBetweenLastShot_Client += DeltaTime;
-}
-
-void ACannonPlayerController::OnRep_CannonballLaunchVelocity()
-{
-	if (!LateInitialize()) return;
-
-	CannonPawn->DrawPath(CannonballLaunchVelocity);
 }
 
 void ACannonPlayerController::SetupInputComponent()
@@ -121,6 +116,9 @@ void ACannonPlayerController::SetupInputComponent()
 
 
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ACannonPlayerController::OnShootActionStarted);
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ACannonPlayerController::OnShootActionTriggered);
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &ACannonPlayerController::OnShootActionCanceled);
+
 	}
 }
 
@@ -200,14 +198,23 @@ void ACannonPlayerController::OnRightMovementTriggered()
 
 void ACannonPlayerController::OnShootActionStarted()
 {
-	if (BoomPlayerState->PlayerTeam == EPlayerTeam::P_X)
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *(CannonPawn->GetOwner()->GetFName().ToString()) );
+}
+
+void ACannonPlayerController::OnShootActionTriggered()
+{
+	HeightCurrentStep += HeightStepIncrease;
+	
+	if (HeightCurrentStep > HeightMaxStep)
 	{
-		UE_LOG(LogTemp,Warning, TEXT("Sou do time X"));
+		HeightCurrentStep = HeightMaxStep;
 	}
-	else
-	{
-		UE_LOG(LogTemp,Warning, TEXT("Sou do time O"));
-	}
+
+}
+
+void ACannonPlayerController::OnShootActionCanceled()
+{
+	CannonballLaunchVelocity = FVector(CannonballLaunchVelocity.X, CannonballLaunchVelocity.Y, HeightInitialStep);
 }
 
 void ACannonPlayerController::OnHorizontalMovementCanceled()
@@ -218,15 +225,4 @@ void ACannonPlayerController::OnHorizontalMovementCanceled()
 void ACannonPlayerController::OnVerticalMovementCanceled()
 {
 	VerticalCurrentStep = 0;
-}
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//		Replication List
-void ACannonPlayerController::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-
-	//Cannonball Launch Velocity
-	DOREPLIFETIME(ACannonPlayerController, CannonballLaunchVelocity);
 }
