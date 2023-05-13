@@ -19,7 +19,7 @@ public:
 
 	TArray<APlayerController*> PlayerControllerList;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	bool ReadyToStart;
 	
 	virtual bool ReadyToStartMatch_Implementation() override;

@@ -198,7 +198,6 @@ void ACannonPlayerController::OnRightMovementTriggered()
 
 void ACannonPlayerController::OnShootActionStarted()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *(CannonPawn->GetOwner()->GetFName().ToString()) );
 }
 
 void ACannonPlayerController::OnShootActionTriggered()

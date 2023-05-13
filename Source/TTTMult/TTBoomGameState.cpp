@@ -11,6 +11,26 @@ ATTBoomGameState* ATTBoomGameState::GetTTBoomGameState(UObject* worldContext)
 	return Cast<ATTBoomGameState>(world->GetGameState());
 }
 
+EPlayMode ATTBoomGameState::GetPlayMode()
+{
+	return PlayMode;
+}
+
+EPlayerTeam ATTBoomGameState::GetCurrentPlayer()
+{
+	return CurrentPlayerTurn;
+}
+
+
+void ATTBoomGameState::SetCurrentPlayerTurn(EPlayerTeam Player)
+{
+	CurrentPlayerTurn = Player;
+}
+
+void ATTBoomGameState::SetPlayMode(EPlayMode NewPlayMode)
+{
+	PlayMode = NewPlayMode;
+}
 
 void ATTBoomGameState::SortPieces()
 {
