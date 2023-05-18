@@ -32,14 +32,15 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	EPieceType GetCurrentPiece();
-		
+
+	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void ResetPiece();
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentPiece(const EPieceType Piece);
 
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
-	void OnChangeMaterial(UMaterialInterface* Material);
+	void OnChangeMaterial(EPieceType Piece);
 
 private:
 

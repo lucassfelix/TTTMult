@@ -46,6 +46,9 @@ public:
 
 	/** The height (Z) of the Cannonball arch **/
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly,  Category = "Cannon Movement")
+	float HeightStartVelocity;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly,  Category = "Cannon Movement")
 	float HeightInitialStep;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Cannon Movement")
