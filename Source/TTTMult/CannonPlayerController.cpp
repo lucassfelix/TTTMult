@@ -50,8 +50,8 @@ bool ACannonPlayerController::LateInitialize()
 	{
 		CannonballLaunchVelocity =
 			BoomPlayerState->PlayerTeam == InvertIfTeam
-			? FVector(-InitialCannonVelocity,0,HeightInitialStep)
-			: FVector(InitialCannonVelocity,0, HeightInitialStep);
+			? FVector(-InitialCannonVelocity,0,HeightStartVelocity)
+			: FVector(InitialCannonVelocity,0, HeightStartVelocity);
 		
 		CannonPawn->DrawPath(CannonballLaunchVelocity);
 		Initialized = true;

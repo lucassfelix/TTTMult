@@ -35,12 +35,6 @@ EPieceType ABoardPiece::GetCurrentPiece()
 	return CurrentPiece;
 }
 
-void ABoardPiece::ResetPiece()
-{
-	CurrentPiece = EPieceType::P_Empty;
-	OnChangeMaterial(EmptyMaterial);
-}
-
 void ABoardPiece::SetCurrentPiece(const EPieceType Piece)
 {
 	CurrentPiece = Piece;
