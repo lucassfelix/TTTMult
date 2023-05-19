@@ -35,12 +35,10 @@ AActor* ATTBoomGameMode::ChoosePlayerStart_Implementation(AController* Player)
 
 	if (PlayerState->PlayerTeam == EPlayerTeam::P_X)
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Expected Start is: X "));
 		PlayerState->IsTeamLeader = true;
 	}
 	else
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Expected Start is: O "));
 	}
 
 	
@@ -51,11 +49,9 @@ AActor* ATTBoomGameMode::ChoosePlayerStart_Implementation(AController* Player)
 
 		if(PlayerStart->PlayerStartTag.IsEqual(ExpectedStart))
 		{
-			UE_LOG(LogTemp,Warning,TEXT("Found start!"))
 			return  PlayerStart;
 		}
 	}
-	UE_LOG(LogTemp,Warning,TEXT("Could not find Start;"))
 	return Super::ChoosePlayerStart_Implementation(Player);
 }
 
@@ -63,7 +59,6 @@ void ATTBoomGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	UE_LOG(LogTemp,Warning,TEXT("POST LOGIN"))
 	
 	PlayerControllerList.Add(NewPlayer);
 }

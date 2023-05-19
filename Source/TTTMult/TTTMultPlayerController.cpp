@@ -65,7 +65,6 @@ void ATTTMultPlayerController::OnLogStarted()
 	ATTTMultPlayerState* TTTMultPlayerState = Cast<ATTTMultPlayerState>(PlayerState);
 
 
-	UE_LOG(LogTemp, Warning, TEXT("Eu sou o Piece %d"), TTTMultPlayerState->GetPlayerPiece());
 }
 
 void ATTTMultPlayerController::OnInputStarted()

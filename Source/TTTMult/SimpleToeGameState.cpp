@@ -42,7 +42,6 @@ bool ASimpleToeGameState::CheckEndgame()
 		&& BoardPieces[0]->GetCurrentPiece() == BoardPieces[8]->GetCurrentPiece()
 		&& BoardPieces[0]->GetCurrentPiece() != EPieceType::P_Empty)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 0"));
 		//Vitória da peça BoardPieces[0].
 		return true;
 	}
@@ -52,7 +51,6 @@ bool ASimpleToeGameState::CheckEndgame()
 		&& BoardPieces[2]->GetCurrentPiece() != EPieceType::P_Empty)
 	{
 		//Vitória da peça BoardPieces[2].
-		UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 1"));
 		return true;
 	}
 	
@@ -64,7 +62,6 @@ bool ASimpleToeGameState::CheckEndgame()
 			&& BoardPieces[HIndex]->GetCurrentPiece() != EPieceType::P_Empty)
 		{
 			//Vitória da peça BoardPieces[i].
-			UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 2"));
 			return true;
 		}
 
@@ -73,7 +70,6 @@ bool ASimpleToeGameState::CheckEndgame()
 			&& BoardPieces[i]->GetCurrentPiece() != EPieceType::P_Empty)
 		{
 			//Vitória da peça BoardPieces[i].
-			UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 3"));
 			return true;
 		}
 	}
@@ -83,12 +79,10 @@ bool ASimpleToeGameState::CheckEndgame()
 	{
 		if(BoardPiece->GetCurrentPiece() == EPieceType::P_Empty)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Exited on Loop 4"));
 			return false;
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Exited at func end"));
 	return true;
 }
 

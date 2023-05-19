@@ -66,13 +66,13 @@ void ACannonPlayerController::Tick(float DeltaTime)
 	
 	if (BoomPlayerState->PlayerTeam == InvertIfTeam )
 	{
-		CannonballLaunchVelocity += FVector(-VerticalCurrentStep, -HorizontalCurrentStep,HeightCurrentStep);
+		CannonballLaunchVelocity += FVector(-VerticalCurrentStep, -HorizontalCurrentStep,HeightCurrentStep) * DeltaTime;
 	}
 	else
 	{
-		CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep, HeightCurrentStep);
-
+		CannonballLaunchVelocity += FVector(VerticalCurrentStep, HorizontalCurrentStep, HeightCurrentStep) * DeltaTime;
 	}
+	
 	if (IsLocalPlayerController())
 	{
 		CannonPawn->DrawPath(CannonballLaunchVelocity);
@@ -215,7 +215,7 @@ void ACannonPlayerController::OnShootActionCanceled()
 {
 	EPlayerTeam Team = BoomPlayerState->PlayerTeam;
 	OnSpawnCannonball(CannonballLaunchVelocity, Team, CannonPawn->GetRootComponent()->GetComponentTransform());
-	CannonballLaunchVelocity = FVector(CannonballLaunchVelocity.X, CannonballLaunchVelocity.Y, HeightInitialStep);
+	CannonballLaunchVelocity = FVector(CannonballLaunchVelocity.X, CannonballLaunchVelocity.Y, HeightStartVelocity);
 	HeightCurrentStep = 0;
 }
 
